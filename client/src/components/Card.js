@@ -2,9 +2,10 @@ const template = document.createElement("template");
 template.innerHTML = `
   <style>
     .slide {
-      height: 470px;
       width: 308px;
       margin: 26px;
+      background-color: white;
+      border: 1px solid #f6f6f6;
     }
 
     .title {
@@ -27,6 +28,9 @@ template.innerHTML = `
       font-family: Arial, Helvetica, sans-serif;
     }
 
+    .info {
+      margin: 19px;
+    }
     .learn-more {
       font-size: 16px;
       color: #2da936;
@@ -37,12 +41,12 @@ template.innerHTML = `
 
   <div class="slide">
     <img />
-    <div>
+    <div class="info">
       <h1 class="title"></h1>
       <h2 class="subtitle"></h2>
       <p class="text"></p>
+      <div class="learn-more">Learn more</div>
     </div>
-    <div class="learn-more">Learn more</div>
   </div>
 `;
 
