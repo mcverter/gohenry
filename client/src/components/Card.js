@@ -61,7 +61,7 @@ export default class Card extends HTMLElement {
     this.shadowRoot.querySelector(".subtitle").innerText = this.getAttribute(
       "subtitle"
     );
-    this.shadowRoot.querySelector(".text").innerText = this.getAttribute(
+    this.shadowRoot.querySelector(".text").innerHTML = this.getAttribute(
       "text"
     );
     this.shadowRoot.querySelector("img").src = this.getAttribute("image_url");

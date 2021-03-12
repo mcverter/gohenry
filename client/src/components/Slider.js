@@ -15,10 +15,16 @@ export default class Slider extends HTMLElement {
   set start(v) {
     this.setAttribute("start", JSON.stringify(v));
   }
+
   get size() {
-    return this.getAttribute("size")
-      ? JSON.parse(this.getAttribute("size"))
-      : Number.MAX_SAFE_INTEGER;
+    return JSON.parse(this.getAttribute("size")) || 3;
+  }
+
+  get total() {
+    return JSON.parse(this.getAttribute("total"));
+  }
+  set total(v) {
+    this.setAttribute("total", JSON.stringify(v));
   }
 
   get loading() {
@@ -33,12 +39,16 @@ export default class Slider extends HTMLElement {
   set cards(v) {
     this.setAttribute("cards", JSON.stringify(v));
   }
+
   async fetchCards(url) {
     this.loading = true;
     const response = await fetch(url);
     const json = await response.json();
     this.start = 0;
-    this.cards = json.slice(0, this.size);
+    if (!this.total) {
+      this.total = json.length;
+    }
+    this.cards = json.slice(0, this.total);
     this.loading = false;
   }
   async connectedCallback() {
@@ -68,7 +78,7 @@ export default class Slider extends HTMLElement {
     }
   }
   renderNext() {
-    if (this.start + 3 < this.size) {
+    if (this.start + this.size < this.total) {
       return `<div id="next">&gt;</div>`;
     } else {
       return `<div>&nbsp;</div>`;
@@ -95,7 +105,7 @@ export default class Slider extends HTMLElement {
             </style>
             <div class="slider">
               ${this.cards
-                .slice(this.start, Math.min(this.start + 3, this.size))
+                .slice(this.start, Math.min(this.start + this.size, this.total))
                 .map((card) => {
                   const { title, subtitle, text, image_url } = card;
                   return `
