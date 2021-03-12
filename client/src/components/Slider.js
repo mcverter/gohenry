@@ -62,27 +62,19 @@ export default class Slider extends HTMLElement {
   }
   renderPrevious() {
     if (this.start > 0) {
-      return `<div id="previous">Previous</div>`;
+      return `<div id="previous">&lt;</div>`;
     } else {
-      return `<div>No previous cards.</div>`;
+      return `<div>&nbsp;</div>`;
     }
   }
   renderNext() {
     if (this.start + 3 < this.size) {
-      return `<div id="next">Next</div>`;
+      return `<div id="next">&gt;</div>`;
     } else {
-      return `<div>No more slides.</div>`;
+      return `<div>&nbsp;</div>`;
     }
   }
   render() {
-    console.log(
-      "start",
-      this.start,
-      "size",
-      this.size,
-      Math.min(this.start + 3, this.size),
-      this.cards.slice(this.start, Math.min(this.start + 3, this.size))
-    );
     if (this.loading) {
       this.shadowRoot.innerHTML = `Loading...`;
     } else {
@@ -91,6 +83,14 @@ export default class Slider extends HTMLElement {
               .slider {
                 display: flex;
                 justify-content: space-around
+              }
+              .navigation {
+                width: 40px;
+                margin: auto;
+                color: #2da936;
+                font-size: 20px;
+                display: flex;
+                justify-content: space-between;
               }
             </style>
             <div class="slider">
@@ -108,6 +108,7 @@ export default class Slider extends HTMLElement {
             
               `;
                 })}
+              </div>
               <div class="navigation">
                 ${this.renderPrevious()}
                 ${this.renderNext()}
