@@ -1,7 +1,7 @@
 const template = document.createElement("template");
 template.innerHTML = `
   <style>
-    .slide {
+    .gh-card-slide {
       width: 308px;
       height: 375px;
       margin: 26px;
@@ -11,32 +11,32 @@ template.innerHTML = `
       position: relative;
     }
 
-    .title {
+    .gh-card-title {
       font-size: 23px;
       color: #3a3a3a;
       font-weight: bold;
     }
-    .subtitle {
+    .gh-card-subtitle {
       font-size: 12px;
       color: #adadad;
       font-weight: bold;
     }
 
-    .text {
+    .gh-card-text {
       font-size: 12px;
       color: #3a3a3a;
       line-height: 1.583;
     }
 
-    .info {
+    .gh-card-info {
       margin: 19px;
     }
-    .learn-more {
+    .gh-card-learn-more {
       margin-left: 19px;
       position: absolute;
       bottom: 19px;
       }
-      .learn-more > a {
+      .gh-card-learn-more > a {
         font-size: 16px;
         color: #2da936;
         font-weight: bold;
@@ -44,14 +44,14 @@ template.innerHTML = `
       }
   </style>
 
-  <div class="slide">
-    <img />
-    <div class="info">
-      <h1 class="title"></h1>
-      <h2 class="subtitle"></h2>
-      <p class="text"></p>
+  <div class="gh-card-slide">
+    <img data-testid="gh-card-img"/>
+    <div class="gh-card-info">
+      <h1 class="gh-card-title" data-testid="gh-card-title"></h1>
+      <h2 class="gh-card-subtitle" data-testid="gh-card-subtitle"></h2>
+      <p class="gh-card-text" data-testid="gh-card-text"></p>
     </div>
-    <div class="learn-more">
+    <div class="gh-card-learn-more" data-testid="gh-card-learn-more">
       <a href="https://gohenry.com/uk">    
         Learn more
       </a>
@@ -66,13 +66,13 @@ window.customElements.define(
       super();
       this.attachShadow({ mode: "open" });
       this.shadowRoot.appendChild(template.content.cloneNode(true));
-      this.shadowRoot.querySelector(".title").innerText = this.getAttribute(
+      this.shadowRoot.querySelector(".gh-card-title").innerHTML = this.getAttribute(
         "title"
       );
-      this.shadowRoot.querySelector(".subtitle").innerText = this.getAttribute(
+      this.shadowRoot.querySelector(".gh-card-subtitle").innerHTML = this.getAttribute(
         "subtitle"
       );
-      this.shadowRoot.querySelector(".text").innerHTML = this.getAttribute(
+      this.shadowRoot.querySelector(".gh-card-text").innerHTML = this.getAttribute(
         "text"
       );
       this.shadowRoot.querySelector("img").src = this.getAttribute("image_url");
