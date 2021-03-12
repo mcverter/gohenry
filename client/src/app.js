@@ -1,2 +1,2 @@
-import "./components/Card";
-import "./components/Slider";
+import "./components/Card/Card";
+import "./components/Slider/Slider";
