@@ -6,8 +6,21 @@ export default class Slider extends HTMLElement {
     this.attachShadow({ mode: "open" });
   }
   static get observedAttributes() {
-    return ["loading", "cards"];
+    return ["loading", "cards", "start"];
   }
+
+  get start() {
+    return JSON.parse(this.getAttribute("start"));
+  }
+  set start(v) {
+    this.setAttribute("start", JSON.stringify(v));
+  }
+  get size() {
+    return this.getAttribute("size")
+      ? JSON.parse(this.getAttribute("size"))
+      : Number.MAX_SAFE_INTEGER;
+  }
+
   get loading() {
     return JSON.parse(this.getAttribute("loading"));
   }
@@ -21,11 +34,11 @@ export default class Slider extends HTMLElement {
     this.setAttribute("cards", JSON.stringify(v));
   }
   async fetchCards(url) {
-    const size = this.getAttribute("size") || Number.MAX_SAFE_INTEGER;
     this.loading = true;
     const response = await fetch(url);
     const json = await response.json();
-    this.cards = json.slice(0, size);
+    this.start = 0;
+    this.cards = json.slice(0, this.size);
     this.loading = false;
   }
   async connectedCallback() {
@@ -42,40 +55,47 @@ export default class Slider extends HTMLElement {
     this.render();
   }
   next() {
-    this.fetchCards(this.cards.next);
+    this.start = this.start + 1;
   }
   previous() {
-    this.fetchCards(this.cards.previous);
+    this.start = this.start - 1;
   }
   renderPrevious() {
-    if (this.cards.previous) {
+    if (this.start > 0) {
       return `<div id="previous">Previous</div>`;
     } else {
       return `<div>No previous cards.</div>`;
     }
   }
   renderNext() {
-    if (this.cards.next) {
+    if (this.start + 3 < this.size) {
       return `<div id="next">Next</div>`;
     } else {
-      return `<div>No more cards.</div>`;
+      return `<div>No more slides.</div>`;
     }
   }
   render() {
+    console.log(
+      "start",
+      this.start,
+      "size",
+      this.size,
+      Math.min(this.start + 3, this.size),
+      this.cards.slice(this.start, Math.min(this.start + 3, this.size))
+    );
     if (this.loading) {
       this.shadowRoot.innerHTML = `Loading...`;
     } else {
       this.shadowRoot.innerHTML = `
-            ${this.renderPrevious()}
-            ${this.renderNext()}
             <style>
               .slider {
                 display: flex;
+                justify-content: space-around
               }
             </style>
             <div class="slider">
               ${this.cards
-                .slice(0, 3)
+                .slice(this.start, Math.min(this.start + 3, this.size))
                 .map((card) => {
                   const { title, subtitle, text, image_url } = card;
                   return `
@@ -87,8 +107,12 @@ export default class Slider extends HTMLElement {
                 ></gohenry-card>
             
               `;
-                })
-                .join("")}
+                })}
+              <div class="navigation">
+                ${this.renderPrevious()}
+                ${this.renderNext()}
+              </div>
+    
         `;
     }
   }
