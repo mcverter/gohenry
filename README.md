@@ -79,11 +79,11 @@ On mobile screens, Slider will only display a single slide at a time.
 
 Done
 
-# Partially Delivered
-
 - CSS Modules
 
-CSS Modules are used for Card component. I still need to refactor Slider component to do the same.
+CSS Modules are used for Card and Slider components.
+
+# Partially Delivered
 
 - Unit Tests
 
