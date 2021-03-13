@@ -3,10 +3,6 @@ import "@testing-library/jest-dom/extend-expect";
 import {getByTestId} from "testing-library__dom";
 import { fixture } from "@open-wc/testing-helpers";
 
-const getShadowRoot = (tagName) => {
-  return document.body.getElementsByTagName(tagName)[0].shadowRoot;
-};
-
 describe("Card Custom Element", () => {
   const title="We are Humans"
   const subtitle="What will you find here"
@@ -27,22 +23,24 @@ describe("Card Custom Element", () => {
   });
 
   it("has title", () => {
-    expect(getByTestId(div, 'gh-card-title')).toBeDefined()
-    expect(getByTestId(div, 'gh-card-title')).toHaveTextContent(title)
+    expect(div.getElementsByClassName('gh-card-title')[0]).toBeDefined()
+    expect(div.getElementsByClassName('gh-card-title')[0]).toHaveTextContent(title)
   });
   it("has subtitle", () => {
-    expect(getByTestId(div, 'gh-card-subtitle')).toBeDefined()
-    expect(getByTestId(div, 'gh-card-subtitle')).toHaveTextContent(subtitle)
+    expect(div.getElementsByClassName('gh-card-subtitle')[0]).toBeDefined()
+    expect(div.getElementsByClassName('gh-card-subtitle')[0]).toHaveTextContent(subtitle)
   });
 
   it("has text", () => {
-    expect(getByTestId(div, 'gh-card-text')).toBeDefined()
-    expect(getByTestId(div, 'gh-card-text')).toHaveTextContent(text)
+    expect(div.getElementsByClassName('gh-card-text')[0]).toBeDefined()
+    expect(div.getElementsByClassName('gh-card-text')[0]).toHaveTextContent(text)
   });
 
   it("has image url", () => {
-    expect(getByTestId(div, 'gh-card-img')).toBeDefined()
-    expect(getByTestId(div, 'gh-card-img')).toHaveAttribute('src', image_url)
+    expect(div.getElementsByTagName('img')[0]).toBeDefined()
+    expect(div.getElementsByTagName('img')[0]).toHaveAttribute('src', image_url)
+  });
+  it("has a learn more link that points to gohenry webpage", () => {
   });
 
 });

@@ -1,7 +1,9 @@
+// import styles from './Card.css'
 const template = document.createElement("template");
+
 template.innerHTML = `
   <style>
-    .gh-card-slide {
+    .gh-card {
       width: 308px;
       height: 375px;
       margin: 26px;
@@ -44,14 +46,14 @@ template.innerHTML = `
       }
   </style>
 
-  <div class="gh-card-slide">
-    <img data-testid="gh-card-img"/>
+  <div class="gh-card">
+    <img/>
     <div class="gh-card-info">
-      <h1 class="gh-card-title" data-testid="gh-card-title"></h1>
-      <h2 class="gh-card-subtitle" data-testid="gh-card-subtitle"></h2>
-      <p class="gh-card-text" data-testid="gh-card-text"></p>
+      <h1 class="gh-card-title"></h1>
+      <h2 class="gh-card-subtitle"></h2>
+      <p class="gh-card-text"></p>
     </div>
-    <div class="gh-card-learn-more" data-testid="gh-card-learn-more">
+    <div class="gh-card-learn-more">
       <a href="https://gohenry.com/uk">    
         Learn more
       </a>
@@ -65,6 +67,10 @@ window.customElements.define(
     constructor() {
       super();
       this.attachShadow({ mode: "open" });
+  //    const styleTag = document.createElement('style');
+  //    styleTag.innerHTML = styles;
+  //    this.shadowRoot.appendChild(styleTag);
+
       this.shadowRoot.appendChild(template.content.cloneNode(true));
       this.shadowRoot.querySelector(".gh-card-title").innerHTML = this.getAttribute(
         "title"

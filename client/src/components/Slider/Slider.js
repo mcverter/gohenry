@@ -1,3 +1,5 @@
+import 'regenerator-runtime/runtime'
+
 const CARDS_URL = "http://localhost:3000/cards";
 
 window.customElements.define(
