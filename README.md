@@ -1,4 +1,4 @@
-# Go Henry Front End Take Home
+# GoHenry Front End Take Home
 
 ## Usage
 
