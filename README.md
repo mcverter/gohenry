@@ -61,7 +61,7 @@ Web Components were used
 
 - The delivered code should include unit tests.
 
-More or less. It took me some time to figure out how to mount the Shadow DOM in a test. I came up with an adequate solution that allowed me to test some basic functionality but it still to be fixed. User interactions could not be tested.
+More or less. It took me some time to figure out how to mount the Shadow DOM in a test. I came up with an adequate solution that allowed me to test some basic functionality but it still needs to be fixed. User interactions could not be tested.
 
 - The component should be reusable on different parts of the project / different projects.
 
@@ -79,12 +79,12 @@ On mobile screens, Slider will only display a single slide at a time.
 
 Done
 
-# Not Delivered
+# Partially Delivered
 
 - CSS Modules
 
-CSS and HTML and JS are all bundled together. I made several attempts to import the css into the ShadowDOM but was unable to configure webpack correctly to get this done.
+CSS Modules are used for Card component. I still need to refator Slider component to do the same.
 
-- Some tests fail
+- Unit Tests
 
 I was unable to adequately model the ShadowDOM in my tests so user interactions could not be tested.
