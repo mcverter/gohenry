@@ -1,12 +1,7 @@
 import "./Slider";
 import "@testing-library/jest-dom/extend-expect";
-import {
-  fireEvent,
-  getByTestId,
-  queryAllByTestId,
-  queryByTestId,
-} from "testing-library__dom";
-import { fixture } from "@open-wc/testing-helpers";
+import { fireEvent } from "testing-library__dom";
+import { fixture, fixtureCleanup } from "@open-wc/testing-helpers";
 import fetchMock from "fetch-mock";
 import "regenerator-runtime/runtime";
 
@@ -107,6 +102,10 @@ describe("Slider Custom Element", () => {
     )[0].shadowRoot.innerHTML;
   });
 
+  afterEach(() => {
+    fixtureCleanup();
+  });
+
   it("has three cards initially", () => {
     expect(wrapper.getElementsByTagName("gohenry-card")).toHaveLength(3);
   });
@@ -161,11 +160,14 @@ describe("Slider Custom Element", () => {
     console.log("This can not be tested until next button test is implemented");
     expect(true).toBe(false);
   });
+});
 
+describe("Custom Size Slider Custom Element", () => {
   it("can be customized for size", async () => {
+    const wrapper = document.createElement("div");
+
     await fixture(`
         <gohenry-slider
-          total="8"
           size="2"
           >
          </gohenry-slider>`);
