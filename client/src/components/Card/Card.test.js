@@ -41,6 +41,9 @@ describe("Card Custom Element", () => {
     expect(div.getElementsByTagName('img')[0]).toHaveAttribute('src', image_url)
   });
   it("has a learn more link that points to gohenry webpage", () => {
+    const learnMoreDiv = div.getElementsByClassName('gh-card-learn-more')[0]
+    expect(learnMoreDiv).toBeDefined()
+    expect(learnMoreDiv).toHaveTextContent(/learn more/i)
+    expect(learnMoreDiv.childNodes[1].getAttribute('href')).toEqual('https://gohenry.com/uk')
   });
-
 });
