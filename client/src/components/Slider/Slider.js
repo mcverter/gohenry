@@ -34,6 +34,9 @@ window.customElements.define(
     get size() {
       return JSON.parse(this.getAttribute("size")) || 3;
     }
+    set size(v) {
+      this.setAttribute("size", JSON.stringify(v));
+    }
     get total() {
       return JSON.parse(this.getAttribute("total"));
     }
@@ -63,6 +66,11 @@ window.customElements.define(
           this[name]();
         }
       });
+
+      /* Mobile devices only show one slide */
+      if (screen.width < 720) {
+        this.size = 1;
+      }
       await this.fetchCards(CARDS_URL);
     }
 
