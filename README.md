@@ -65,7 +65,7 @@ More or less. It took me some time to figure out how to mount the Shadow DOM in 
 
 - The component should be reusable on different parts of the project / different projects.
 
-gohenry-slider and go-henry components are Web Components that you can use anywhere
+gohenry-slider and gohenry-card components are Web Components that you can use anywhere
 
 - If transitions are used, make them as smooth as possible.
 
@@ -87,4 +87,4 @@ CSS and HTML and JS are all bundled together. I made several attempts to import 
 
 - Some tests fail
 
-I was unable to adequately model the ShadowDOM in my tests so user interactions could not be tested. I am not sure why the size attribute test is also failing.
+I was unable to adequately model the ShadowDOM in my tests so user interactions could not be tested.
