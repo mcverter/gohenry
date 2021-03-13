@@ -128,9 +128,7 @@ describe("Slider Custom Element", () => {
 
   it("has an invisible previous button and a visible next button", () => {
     const buttons = wrapper.getElementsByTagName("button");
-    expect(buttons[0].innerHTML).toEqual("‹");
     expect(buttons[0]).not.toBeVisible();
-    expect(buttons[1].innerHTML).toEqual("›");
     expect(buttons[1]).toBeVisible();
   });
 

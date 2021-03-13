@@ -1,4 +1,5 @@
 import "regenerator-runtime/runtime";
+import styles from "./Slider.styles.css";
 
 const CARDS_URL = "http://localhost:3000/cards";
 
@@ -80,68 +81,54 @@ window.customElements.define(
     previous() {
       this.start = this.start - 1;
     }
-    renderNext() {
-      if (this.start + this.size < this.total) {
-        return `<button id="next">&rsaquo;</button>`;
-      } else {
-        return `<button style="visibility:hidden">&rsaquo;</button>`;
-      }
-    }
-    renderPrevious() {
-      if (this.start > 0) {
-        return `<button id="previous">&lsaquo;</button>`;
-      } else {
-        return `<button style="visibility:hidden">&lsaquo;</button>`;
-      }
-    }
 
     render() {
       if (this.loading) {
         this.shadowRoot.innerHTML = `Loading...`;
       } else {
-        this.shadowRoot.innerHTML = `
-            <style>
-              .slider {
-                display: flex;
-                justify-content: space-around
-              }
-              .navigation {
-                width: 40px;
-                margin: auto;
-                display: flex;
-                justify-content: space-between;
-              }
-              .navigation > button {
-                color: #2da936;
-                font-size: 26px;
-                font-weight: bold;
-                border: none;
-                font-family: Arial, Helvetica, sans-serif;
-              }
+        while (this.shadowRoot.firstChild) {
+          this.shadowRoot.removeChild(this.shadowRoot.firstChild);
+        }
+        const styleTag = document.createElement("style");
+        styleTag.textContent = styles;
+        this.shadowRoot.appendChild(styleTag);
 
-            </style>
-            <div class="slider">
-              ${this.cards
-                .slice(this.start, Math.min(this.start + this.size, this.total))
-                .map((card) => {
-                  const { title, subtitle, text, image_url } = card;
-                  return `
-                  <gohenry-card
-                  title="${title}"
-                  subtitle="${subtitle}"
-                  text="${text}"
-                  image_url="${image_url}"
-                ></gohenry-card>
-            
-              `;
-                })}
-              </div>
-              <div class="navigation">
-                ${this.renderPrevious()}
-                ${this.renderNext()}
-              </div>
-    
-        `;
+        const sliderContainer = document.createElement("div");
+        sliderContainer.setAttribute("class", "slider");
+
+        this.cards
+          .slice(this.start, Math.min(this.start + this.size, this.total))
+          .forEach((card) => {
+            const { title, subtitle, text, image_url } = card;
+
+            const goHenryCard = document.createElement("gohenry-card");
+            goHenryCard.setAttribute("title", title);
+            goHenryCard.setAttribute("subtitle", subtitle);
+            goHenryCard.setAttribute("text", text);
+            goHenryCard.setAttribute("image_url", image_url);
+            sliderContainer.appendChild(goHenryCard.cloneNode(true));
+          });
+
+        this.shadowRoot.appendChild(sliderContainer);
+
+        const navContainer = document.createElement("div");
+        navContainer.setAttribute("class", "navigation");
+        const prevButton = document.createElement("button");
+        prevButton.setAttribute("id", "previous");
+        prevButton.innerText = "‹";
+        if (this.start === 0) {
+          prevButton.style.visibility = "hidden";
+        }
+        const nextButton = document.createElement("button");
+        nextButton.setAttribute("id", "next");
+        nextButton.innerText = "›";
+        if (this.start + this.size === this.total) {
+          nextButton.style.visibility = "hidden";
+        }
+        navContainer.appendChild(prevButton);
+        navContainer.appendChild(nextButton);
+
+        this.shadowRoot.append(navContainer);
       }
     }
   }
