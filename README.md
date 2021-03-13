@@ -65,7 +65,7 @@ More or less. It took me some time to figure out how to mount the Shadow DOM in 
 
 - The component should be reusable on different parts of the project / different projects.
 
-gohenry-slider and go-henry components are Web Components that you can use anywhere
+gohenry-slider and gohenry-card components are Web Components that you can use anywhere
 
 - If transitions are used, make them as smooth as possible.
 
