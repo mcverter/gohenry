@@ -68,7 +68,7 @@ window.customElements.define(
       });
 
       /* Mobile devices only show one slide */
-      if (screen.width < 720) {
+      if (screen.width && screen.width < 720) {
         this.size = 1;
       }
       await this.fetchCards(CARDS_URL);
