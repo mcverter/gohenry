@@ -22,12 +22,12 @@ module.exports = {
         test: /\.css$/,
         use: [
           {
-            loader: 'css-loader',
+            loader: "css-loader",
             options: {
-              modules: true
-            }
-          }
-        ]
+              modules: true,
+            },
+          },
+        ],
       },
     ],
   },

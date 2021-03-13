@@ -1,4 +1,4 @@
-// import styles from './Card.css'
+// import styles from './Card.styles.scss'
 const template = document.createElement("template");
 
 template.innerHTML = `
@@ -18,6 +18,7 @@ template.innerHTML = `
       color: #3a3a3a;
       font-weight: bold;
     }
+    
     .gh-card-subtitle {
       font-size: 12px;
       color: #adadad;
@@ -67,20 +68,23 @@ window.customElements.define(
     constructor() {
       super();
       this.attachShadow({ mode: "open" });
-  //    const styleTag = document.createElement('style');
-  //    styleTag.innerHTML = styles;
-  //    this.shadowRoot.appendChild(styleTag);
+
+      /*   TODO:  Fix CSS imports
+      const styleTag = document.createElement('style');
+      styleTag.textContent = styles;
+      this.shadowRoot.appendChild(styleTag);
+      */
 
       this.shadowRoot.appendChild(template.content.cloneNode(true));
-      this.shadowRoot.querySelector(".gh-card-title").innerHTML = this.getAttribute(
-        "title"
-      );
-      this.shadowRoot.querySelector(".gh-card-subtitle").innerHTML = this.getAttribute(
-        "subtitle"
-      );
-      this.shadowRoot.querySelector(".gh-card-text").innerHTML = this.getAttribute(
-        "text"
-      );
+      this.shadowRoot.querySelector(
+        ".gh-card-title"
+      ).innerHTML = this.getAttribute("title");
+      this.shadowRoot.querySelector(
+        ".gh-card-subtitle"
+      ).innerHTML = this.getAttribute("subtitle");
+      this.shadowRoot.querySelector(
+        ".gh-card-text"
+      ).innerHTML = this.getAttribute("text");
       this.shadowRoot.querySelector("img").src = this.getAttribute("image_url");
     }
   }

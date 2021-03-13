@@ -32,11 +32,10 @@
   margin-left: 19px;
   position: absolute;
   bottom: 19px;
-}
-/* TODO: Fix sass-loader */
-.gh-card-learn-more a {
-  font-size: 16px;
-  color: #2da936 !important;
-  font-weight: bold;
-  text-decoration: none;
+  a {
+    font-size: 16px;
+    color: #2da936 !important;
+    font-weight: bold;
+    text-decoration: none;
+  }
 }

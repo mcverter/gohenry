@@ -3,7 +3,7 @@ module.exports = {
     "^.+\\.(js|jsx)$": "babel-jest",
   },
   transformIgnorePatterns: [
-       // "node_modules/(?!(testing-library__dom|@open-wc)/)",
+    // "node_modules/(?!(testing-library__dom|@open-wc)/)",
   ],
   testEnvironment: "jest-environment-jsdom-sixteen",
 
