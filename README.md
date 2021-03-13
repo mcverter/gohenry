@@ -35,7 +35,7 @@ Card and Slider web components implemented.
 
 - This component should show a fixed (configurable) number of cards at a time, and slide for more when the user clicks the arrow buttons.
 
-The Slider component accepts an attribute "size" which controls how many slides will be shown on the screen. If this attribute is not given, it is given a default value of 3. On mobile screens, this any given or implicit value will be overridden to the value of 1 so that it only displays a single slide at a time.
+The Slider component accepts an attribute "size" which controls how many slides will be shown on the screen. If this attribute is not given, it is given a default value of 3. On mobile screens, any given or implicit value will be overridden to the value of 1 so that it only displays a single slide at a time.
 
 - Display 2 of these card sliders in one HTML page. One card slider with 6 slides and one with 8 slides
 
@@ -59,11 +59,9 @@ https://github.com/mcverter/gohenry
 
 Web Components were used
 
-- - https://developers.google.com/web/fundamentals/web-components/customelements
+- The delivered code should include unit tests.
 
-* The delivered code should include unit tests.
-
-More or less. It took me some time to figure out how to mount the shadow dom in a test. I came up with an adequate solution that allowed me to test some basic functionality but it still to be fixed. User interactions could not be tested.
+More or less. It took me some time to figure out how to mount the Shadow DOM in a test. I came up with an adequate solution that allowed me to test some basic functionality but it still to be fixed. User interactions could not be tested.
 
 - The component should be reusable on different parts of the project / different projects.
 
@@ -85,8 +83,8 @@ Done
 
 - CSS Modules
 
-CSS and HTML and JS are all bundled together. I made several attempts to import the css into the ShadowDOM but was unable to configure webpack correctly to get this done
+CSS and HTML and JS are all bundled together. I made several attempts to import the css into the ShadowDOM but was unable to configure webpack correctly to get this done.
 
 - Some tests fail
 
-I was unable to adequately model the ShadowDOM in my tests so user interactions could not be tested. I am not sure why the size attribute test is also failing
+I was unable to adequately model the ShadowDOM in my tests so user interactions could not be tested. I am not sure why the size attribute test is also failing.
