@@ -48,7 +48,7 @@ template.innerHTML = `
   </style>
 
   <div class="gh-card">
-    <img/>
+    <img alt="Our team at work!" />
     <div class="gh-card-info">
       <h1 class="gh-card-title"></h1>
       <h2 class="gh-card-subtitle"></h2>
