@@ -83,7 +83,7 @@ Done
 
 - CSS Modules
 
-CSS Modules are used for Card component. I still need to refator Slider component to do the same.
+CSS Modules are used for Card component. I still need to refactor Slider component to do the same.
 
 - Unit Tests
 
