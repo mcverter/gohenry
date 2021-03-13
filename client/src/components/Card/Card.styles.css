@@ -1,4 +1,4 @@
-.gh-card-slide {
+.gh-card {
   width: 308px;
   height: 375px;
   margin: 26px;
@@ -32,10 +32,10 @@
   margin-left: 19px;
   position: absolute;
   bottom: 19px;
-  a {
-    font-size: 16px;
-    color: #2da936 !important;
-    font-weight: bold;
-    text-decoration: none;
-  }
+}
+.gh-card-learn-more a {
+  font-size: 16px;
+  color: #2da936 !important;
+  font-weight: bold;
+  text-decoration: none;
 }
