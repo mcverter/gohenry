@@ -136,6 +136,9 @@ describe("Slider Custom Element", () => {
   });
 
   it("clicking the next button will move the slides ahead", () => {
+    console.log(
+      "This won't work because wrapper contains a static copy of the dom before the button is pressed"
+    );
     const nextButton = wrapper.getElementsByTagName("button")[1];
     fireEvent.click(nextButton);
     const cards = wrapper.getElementsByTagName("gohenry-card");
