@@ -115,13 +115,13 @@ window.customElements.define(
         navContainer.setAttribute("class", "navigation");
         const prevButton = document.createElement("button");
         prevButton.setAttribute("id", "previous");
-        prevButton.innerText = "‹";
+        prevButton.innerHTML = "〈";
         if (this.start === 0) {
           prevButton.style.visibility = "hidden";
         }
         const nextButton = document.createElement("button");
         nextButton.setAttribute("id", "next");
-        nextButton.innerText = "›";
+        nextButton.innerHTML = "〉";
         if (this.start + this.size === this.total) {
           nextButton.style.visibility = "hidden";
         }

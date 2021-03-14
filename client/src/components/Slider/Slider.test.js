@@ -4,6 +4,7 @@ import { fireEvent } from "testing-library__dom";
 import { fixture, fixtureCleanup } from "@open-wc/testing-helpers";
 import fetchMock from "fetch-mock";
 import "regenerator-runtime/runtime";
+import userEvent from "@testing-library/user-event";
 
 const fetchMockResponse = [
   {
@@ -128,7 +129,11 @@ describe("Slider Custom Element", () => {
 
   it("has an invisible previous button and a visible next button", () => {
     const buttons = wrapper.getElementsByTagName("button");
+    expect(buttons[0].innerHTML).toEqual('〈')
+    expect(buttons[0].id).toMatch('previous')
     expect(buttons[0]).not.toBeVisible();
+    expect(buttons[1].id).toMatch('next')
+    expect(buttons[0].innerHTML).toEqual('〉')
     expect(buttons[1]).toBeVisible();
   });
 
@@ -137,7 +142,7 @@ describe("Slider Custom Element", () => {
       "This won't work because wrapper contains a static copy of the dom before the button is pressed"
     );
     const nextButton = wrapper.getElementsByTagName("button")[1];
-    fireEvent.click(nextButton);
+    userEvent.click(nextButton);
     const cards = wrapper.getElementsByTagName("gohenry-card");
     for (let i = 0; i < 3; i++) {
       expect(cards[i].getAttribute("title")).toEqual(
