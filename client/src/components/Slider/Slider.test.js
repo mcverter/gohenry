@@ -128,13 +128,13 @@ describe("Slider Custom Element", () => {
   });
 
   it("has an invisible previous button and a visible next button", () => {
-    const buttons = wrapper.getElementsByTagName("button");
-    expect(buttons[0].innerHTML).toEqual('〈')
-    expect(buttons[0].id).toMatch('previous')
-    expect(buttons[0]).not.toBeVisible();
-    expect(buttons[1].id).toMatch('next')
-    expect(buttons[0].innerHTML).toEqual('〉')
-    expect(buttons[1]).toBeVisible();
+    const [previousButton, nextButton] = wrapper.getElementsByTagName("button");
+    expect(previousButton.innerHTML).toEqual('〈')
+    expect(previousButton.id).toMatch('previous')
+    expect(previousButton).not.toBeVisible();
+    expect(nextButton.id).toMatch('next')
+    expect(nextButton.innerHTML).toEqual('〉')
+    expect(nextButton).toBeVisible();
   });
 
   it("clicking the next button will move the slides ahead", () => {
