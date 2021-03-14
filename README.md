@@ -83,8 +83,6 @@ Done
 
 CSS Modules are used for Card and Slider components.
 
-# Partially Delivered
-
 - Unit Tests
 
-I was unable to adequately model the ShadowDOM in my tests so user interactions could not be tested.
+All tests pass. I will be adding more cases and refactoring the Slider test suite.
