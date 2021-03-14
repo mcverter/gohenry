@@ -1,5 +1,5 @@
 import "regenerator-runtime/runtime";
-import styles from "./Slider.styles.css";
+import styles from "./Slider.styles.scss";
 
 const CARDS_URL = "http://localhost:3000/cards";
 

@@ -22,6 +22,10 @@ module.exports = {
         test: /\.css$/,
         use: ["raw-loader"],
       },
+      {
+        test: /\.scss$/,
+        use: ["sass-to-string"],
+      },
     ],
   },
 };
