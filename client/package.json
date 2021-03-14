@@ -10,12 +10,8 @@
     "start": "webpack-dev-server --output-public-path=/build/  --mode development --progress --open --hot",
     "build": "webpack --mode production --progress",
     "lint": "eslint . --ext .js && prettier --check \"./src/**/*.js\"",
-<<<<<<< HEAD
     "lint:fix": "eslint . --fix --ext .js && prettier --write \"./src/**/*.js\"",
     "prettier": "prettier --write \"./src/**/*.js\""
-=======
-    "lint:fix": "eslint . --fix --ext .js && prettier \"./src/**/*.js\""
->>>>>>> eda1c221d1ddb1e303b88b64f80e72779ecdd8e7
   },
   "license": "MIT",
   "devDependencies": {
