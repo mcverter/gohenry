@@ -63,7 +63,15 @@ window.customElements.define(
     async fetchCards(url) {
       this.loading = true;
       const response = await fetch(url);
+      if (!response) {
+        console.error('Server could not be reached');
+        return;
+      }
       const json = await response.json();
+      if (!json) {
+        console.error('Server did not return a well-formed response');
+        return;
+      }
       this.start = 0;
       if (!this.total) {
         this.total = json.length;
