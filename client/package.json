@@ -8,7 +8,10 @@
     "test-watch": "jest --watchAll",
     "reinstall": "rm -rf node_modules && yarn install && yarn test && yarn start",
     "start": "webpack-dev-server --output-public-path=/build/  --mode development --progress --open --hot",
-    "build": "webpack --mode production --progress"
+    "build": "webpack --mode production --progress",
+    "lint": "eslint . --ext .js && prettier --check \"./src/**/*.js\"",
+    "lint:fix": "eslint . --fix --ext .js && prettier --write \"./src/**/*.js\"",
+    "prettier": "prettier --write \"./src/**/*.js\""
   },
   "license": "MIT",
   "devDependencies": {
@@ -23,10 +26,21 @@
     "@testing-library/user-event": "^12.8.3",
     "babel-loader": "^8.0.5",
     "css-loader": "^5.1.2",
+    "eslint": "^6.8.0",
+    "eslint-config-airbnb": "^18.1.0",
+    "eslint-config-prettier": "^8.1.0",
+    "eslint-import-resolver-typescript": "^2.0.0",
+    "eslint-plugin-import": "^2.20.1",
+    "eslint-plugin-import-helpers": "^1.0.2",
+    "eslint-plugin-jsx-a11y": "^6.2.3",
+    "eslint-plugin-prefer-arrow": "^1.1.7",
+    "eslint-plugin-prettier": "^3.1.2",
+    "eslint-plugin-react": "^7.20.3",
     "fetch-mock": "^9.11.0",
     "jest": "^26.6.3",
     "jest-environment-jsdom-sixteen": "^1.0.3",
     "node-fetch": "^2.6.1",
+    "prettier": "^1.19.1",
     "raw-loader": "^4.0.2",
     "sass-loader": "^11.0.1",
     "sass-to-string": "^1.5.0",
@@ -36,5 +50,8 @@
     "webpack": "^4.16.1",
     "webpack-cli": "^3.0.8",
     "webpack-dev-server": "^3.1.10"
+  },
+  "dependencies": {
+    "regenerator-runtime": "^0.13.7"
   }
 }

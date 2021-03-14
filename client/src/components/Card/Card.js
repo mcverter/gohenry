@@ -1,5 +1,6 @@
-import styles from "./Card.styles.scss";
-const template = document.createElement("template");
+import styles from './Card.styles.scss';
+
+const template = document.createElement('template');
 
 template.innerHTML = `
   <div class="gh-card">
@@ -18,27 +19,27 @@ template.innerHTML = `
 `;
 
 window.customElements.define(
-  "gohenry-card",
+  'gohenry-card',
   class Card extends HTMLElement {
     constructor() {
       super();
-      this.attachShadow({ mode: "open" });
+      this.attachShadow({ mode: 'open' });
 
-      const styleTag = document.createElement("style");
+      const styleTag = document.createElement('style');
       styleTag.textContent = styles;
       this.shadowRoot.appendChild(styleTag);
 
       this.shadowRoot.appendChild(template.content.cloneNode(true));
       this.shadowRoot.querySelector(
-        ".gh-card-title"
-      ).innerHTML = this.getAttribute("title");
+        '.gh-card-title',
+      ).innerHTML = this.getAttribute('title');
       this.shadowRoot.querySelector(
-        ".gh-card-subtitle"
-      ).innerHTML = this.getAttribute("subtitle");
+        '.gh-card-subtitle',
+      ).innerHTML = this.getAttribute('subtitle');
       this.shadowRoot.querySelector(
-        ".gh-card-text"
-      ).innerHTML = this.getAttribute("text");
-      this.shadowRoot.querySelector("img").src = this.getAttribute("image_url");
+        '.gh-card-text',
+      ).innerHTML = this.getAttribute('text');
+      this.shadowRoot.querySelector('img').src = this.getAttribute('image_url');
     }
-  }
+  },
 );
