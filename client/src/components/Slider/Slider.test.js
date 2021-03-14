@@ -82,8 +82,21 @@ const fetchMockResponse = [
 ];
 
 describe("Slider Custom Element", () => {
-  let cardsWrapper;
-  let buttonsWrapper;
+  const getCardsWrapper = () => {
+    return document.body.getElementsByTagName("gohenry-slider")[0].shadowRoot
+      .childNodes[1];
+  };
+  const getButtonsWrapper = () => {
+    return document.body.getElementsByTagName("gohenry-slider")[0].shadowRoot
+      .childNodes[2];
+  };
+
+  const getNextButton = () => {
+    return getButtonsWrapper().getElementsByTagName("button")[1];
+  };
+  const getPreviousButton = () => {
+    return getButtonsWrapper().getElementsByTagName("button")[0];
+  };
 
   beforeAll(() => {
     fetchMock.get(
@@ -99,10 +112,6 @@ describe("Slider Custom Element", () => {
           size="3"
           >
          </gohenry-slider>`);
-    cardsWrapper = document.body.getElementsByTagName("gohenry-slider")[0]
-      .shadowRoot.childNodes[1];
-    buttonsWrapper = document.body.getElementsByTagName("gohenry-slider")[0]
-      .shadowRoot.childNodes[2];
   });
 
   afterEach(() => {
@@ -110,11 +119,13 @@ describe("Slider Custom Element", () => {
   });
 
   it("has three cards initially", () => {
-    expect(cardsWrapper.getElementsByTagName("gohenry-card")).toHaveLength(3);
+    expect(getCardsWrapper().getElementsByTagName("gohenry-card")).toHaveLength(
+      3
+    );
   });
 
   it("shows the first three cards", () => {
-    const cards = cardsWrapper.getElementsByTagName("gohenry-card");
+    const cards = getCardsWrapper().getElementsByTagName("gohenry-card");
     for (let i = 0; i < 3; i++) {
       expect(cards[i].getAttribute("title")).toEqual(
         fetchMockResponse[i].title
@@ -130,9 +141,10 @@ describe("Slider Custom Element", () => {
   });
 
   it("has an invisible previous button and a visible next button", () => {
-    const [previousButton, nextButton] = buttonsWrapper.getElementsByTagName(
-      "button"
-    );
+    const [
+      previousButton,
+      nextButton,
+    ] = getButtonsWrapper().getElementsByTagName("button");
     expect(previousButton.innerHTML).toEqual("〈");
     expect(previousButton.id).toMatch("previous");
     expect(previousButton).not.toBeVisible();
@@ -142,11 +154,10 @@ describe("Slider Custom Element", () => {
   });
 
   it("clicking the next button will move the slides ahead", () => {
-    const nextButton = buttonsWrapper.getElementsByTagName("button")[1];
+    const nextButton = getButtonsWrapper().getElementsByTagName("button")[1];
     userEvent.click(nextButton);
-    cardsWrapper = document.body.getElementsByTagName("gohenry-slider")[0]
-      .shadowRoot.childNodes[1];
-    const cards = cardsWrapper.getElementsByTagName("gohenry-card");
+
+    const cards = getCardsWrapper().getElementsByTagName("gohenry-card");
     for (let i = 0; i < 3; i++) {
       expect(cards[i].getAttribute("title")).toEqual(
         fetchMockResponse[i + 1].title
@@ -163,42 +174,13 @@ describe("Slider Custom Element", () => {
     }
   });
   it("clicking the previous button will move the slides back", () => {
-    let [previousButton, nextButton] = buttonsWrapper.getElementsByTagName(
-      "button"
-    );
-    userEvent.click(nextButton);
+    userEvent.click(getNextButton());
+    userEvent.click(getNextButton());
+    userEvent.click(getNextButton());
+    userEvent.click(getNextButton());
+    userEvent.click(getPreviousButton());
 
-    buttonsWrapper = document.body.getElementsByTagName("gohenry-slider")[0]
-      .shadowRoot.childNodes[2];
-    [previousButton, nextButton] = buttonsWrapper.getElementsByTagName(
-      "button"
-    );
-    userEvent.click(nextButton);
-
-    buttonsWrapper = document.body.getElementsByTagName("gohenry-slider")[0]
-      .shadowRoot.childNodes[2];
-    [previousButton, nextButton] = buttonsWrapper.getElementsByTagName(
-      "button"
-    );
-    userEvent.click(nextButton);
-
-    buttonsWrapper = document.body.getElementsByTagName("gohenry-slider")[0]
-      .shadowRoot.childNodes[2];
-    [previousButton, nextButton] = buttonsWrapper.getElementsByTagName(
-      "button"
-    );
-    userEvent.click(nextButton);
-
-    buttonsWrapper = document.body.getElementsByTagName("gohenry-slider")[0]
-      .shadowRoot.childNodes[2];
-    [previousButton, nextButton] = buttonsWrapper.getElementsByTagName(
-      "button"
-    );
-    userEvent.click(previousButton);
-
-    cardsWrapper = document.body.getElementsByTagName("gohenry-slider")[0]
-      .shadowRoot.childNodes[1];
-    const cards = cardsWrapper.getElementsByTagName("gohenry-card");
+    const cards = getCardsWrapper().getElementsByTagName("gohenry-card");
     for (let i = 0; i < 3; i++) {
       expect(cards[i].getAttribute("title")).toEqual(
         fetchMockResponse[i + 3].title
@@ -214,9 +196,22 @@ describe("Slider Custom Element", () => {
       );
     }
   });
+  it("Next button will be hidden when there are no remaining slides", () => {
+    expect(getNextButton()).toBeVisible();
+    userEvent.click(getNextButton());
+    expect(getNextButton()).toBeVisible();
+    userEvent.click(getNextButton());
+    expect(getNextButton()).toBeVisible();
+    userEvent.click(getNextButton());
+    expect(getNextButton()).toBeVisible();
+    userEvent.click(getNextButton());
+    expect(getNextButton()).toBeVisible();
+    userEvent.click(getNextButton());
+    expect(getNextButton()).not.toBeVisible();
+  });
 });
 
-describe("Custom Size Slider Custom Element", () => {
+describe("Additional Slider Testing", () => {
   it("can be customized for size", async () => {
     const wrapper = document.createElement("div");
 

@@ -86,4 +86,4 @@ CSS Modules are used for Card and Slider components.
 
 - Unit Tests
 
-All tests pass. I will be adding more cases and refactoring the Slider test suite.
+All tests pass!
