@@ -6,6 +6,47 @@ import fetchMock from "fetch-mock";
 import "regenerator-runtime/runtime";
 import userEvent from "@testing-library/user-event";
 
+const getCardsWrapper = (document) => {
+  return document.body.getElementsByTagName("gohenry-slider")[0].shadowRoot
+    .childNodes[1];
+};
+const getButtonsWrapper = (document) => {
+  return document.body.getElementsByTagName("gohenry-slider")[0].shadowRoot
+    .childNodes[2];
+};
+
+const getNextButton = (document) => {
+  return getButtonsWrapper(document).getElementsByTagName("button")[1];
+};
+const getPreviousButton = (document) => {
+  return getButtonsWrapper(document).getElementsByTagName("button")[0];
+};
+
+const expectCorrectCardsToBeOnScreen = (cards, size, offset = 0) => {
+  for (let i = 0; i < size; i++) {
+    expect(cards[i].getAttribute("title")).toEqual(
+      fetchMockResponse[i + offset].title
+    );
+    expect(cards[i].getAttribute("subtitle")).toEqual(
+      fetchMockResponse[i + offset].subtitle
+    );
+    expect(cards[i].getAttribute("text")).toEqual(
+      fetchMockResponse[i + offset].text
+    );
+    expect(cards[i].getAttribute("image_url")).toEqual(
+      fetchMockResponse[i + offset].image_url
+    );
+  }
+};
+
+const getTotalCards = (document, size) => {
+  let numSlides = size;
+  while (getNextButton(document).style.visibility !== "hidden") {
+    userEvent.click(getNextButton(document));
+    numSlides++;
+  }
+  return numSlides;
+};
 const fetchMockResponse = [
   {
     id: 1,
@@ -81,22 +122,9 @@ const fetchMockResponse = [
   },
 ];
 
-describe("Slider Custom Element", () => {
-  const getCardsWrapper = () => {
-    return document.body.getElementsByTagName("gohenry-slider")[0].shadowRoot
-      .childNodes[1];
-  };
-  const getButtonsWrapper = () => {
-    return document.body.getElementsByTagName("gohenry-slider")[0].shadowRoot
-      .childNodes[2];
-  };
-
-  const getNextButton = () => {
-    return getButtonsWrapper().getElementsByTagName("button")[1];
-  };
-  const getPreviousButton = () => {
-    return getButtonsWrapper().getElementsByTagName("button")[0];
-  };
+describe("Slider Custom Element. Size=3.  Total=8.", () => {
+  const size = 3;
+  const total = 8;
 
   beforeAll(() => {
     fetchMock.get(
@@ -108,8 +136,8 @@ describe("Slider Custom Element", () => {
   beforeEach(async () => {
     await fixture(`
         <gohenry-slider
-          total="8"
-          size="3"
+          total=${total}
+          size=${size}
           >
          </gohenry-slider>`);
   });
@@ -118,33 +146,23 @@ describe("Slider Custom Element", () => {
     fixtureCleanup();
   });
 
-  it("has three cards initially", () => {
-    expect(getCardsWrapper().getElementsByTagName("gohenry-card")).toHaveLength(
-      3
-    );
+  it(`has ${size} cards initially`, () => {
+    expect(
+      getCardsWrapper(document).getElementsByTagName("gohenry-card")
+    ).toHaveLength(3);
   });
 
-  it("shows the first three cards", () => {
-    const cards = getCardsWrapper().getElementsByTagName("gohenry-card");
-    for (let i = 0; i < 3; i++) {
-      expect(cards[i].getAttribute("title")).toEqual(
-        fetchMockResponse[i].title
-      );
-      expect(cards[i].getAttribute("subtitle")).toEqual(
-        fetchMockResponse[i].subtitle
-      );
-      expect(cards[i].getAttribute("text")).toEqual(fetchMockResponse[i].text);
-      expect(cards[i].getAttribute("image_url")).toEqual(
-        fetchMockResponse[i].image_url
-      );
-    }
+  it(`shows the first ${size} cards`, () => {
+    const cards = getCardsWrapper(document).getElementsByTagName(
+      "gohenry-card"
+    );
+    expectCorrectCardsToBeOnScreen(cards, size);
   });
 
   it("has an invisible previous button and a visible next button", () => {
-    const [
-      previousButton,
-      nextButton,
-    ] = getButtonsWrapper().getElementsByTagName("button");
+    const [previousButton, nextButton] = getButtonsWrapper(
+      document
+    ).getElementsByTagName("button");
     expect(previousButton.innerHTML).toEqual("〈");
     expect(previousButton.id).toMatch("previous");
     expect(previousButton).not.toBeVisible();
@@ -154,75 +172,108 @@ describe("Slider Custom Element", () => {
   });
 
   it("clicking the next button will move the slides ahead", () => {
-    const nextButton = getButtonsWrapper().getElementsByTagName("button")[1];
+    const nextButton = getButtonsWrapper(document).getElementsByTagName(
+      "button"
+    )[1];
     userEvent.click(nextButton);
 
-    const cards = getCardsWrapper().getElementsByTagName("gohenry-card");
-    for (let i = 0; i < 3; i++) {
-      expect(cards[i].getAttribute("title")).toEqual(
-        fetchMockResponse[i + 1].title
-      );
-      expect(cards[i].getAttribute("subtitle")).toEqual(
-        fetchMockResponse[i + 1].subtitle
-      );
-      expect(cards[i].getAttribute("text")).toEqual(
-        fetchMockResponse[i + 1].text
-      );
-      expect(cards[i].getAttribute("image_url")).toEqual(
-        fetchMockResponse[i + 1].image_url
-      );
-    }
+    const cards = getCardsWrapper(document).getElementsByTagName(
+      "gohenry-card"
+    );
+    expectCorrectCardsToBeOnScreen(cards, size, 1);
   });
   it("clicking the previous button will move the slides back", () => {
-    userEvent.click(getNextButton());
-    userEvent.click(getNextButton());
-    userEvent.click(getNextButton());
-    userEvent.click(getNextButton());
-    userEvent.click(getPreviousButton());
+    userEvent.click(getNextButton(document));
+    userEvent.click(getNextButton(document));
+    userEvent.click(getNextButton(document));
+    userEvent.click(getNextButton(document));
+    userEvent.click(getPreviousButton(document));
 
-    const cards = getCardsWrapper().getElementsByTagName("gohenry-card");
-    for (let i = 0; i < 3; i++) {
-      expect(cards[i].getAttribute("title")).toEqual(
-        fetchMockResponse[i + 3].title
-      );
-      expect(cards[i].getAttribute("subtitle")).toEqual(
-        fetchMockResponse[i + 3].subtitle
-      );
-      expect(cards[i].getAttribute("text")).toEqual(
-        fetchMockResponse[i + 3].text
-      );
-      expect(cards[i].getAttribute("image_url")).toEqual(
-        fetchMockResponse[i + 3].image_url
-      );
-    }
+    const cards = getCardsWrapper(document).getElementsByTagName(
+      "gohenry-card"
+    );
+    expectCorrectCardsToBeOnScreen(cards, size, 3);
   });
+
   it("Next button will be hidden when there are no remaining slides", () => {
-    expect(getNextButton()).toBeVisible();
-    userEvent.click(getNextButton());
-    expect(getNextButton()).toBeVisible();
-    userEvent.click(getNextButton());
-    expect(getNextButton()).toBeVisible();
-    userEvent.click(getNextButton());
-    expect(getNextButton()).toBeVisible();
-    userEvent.click(getNextButton());
-    expect(getNextButton()).toBeVisible();
-    userEvent.click(getNextButton());
-    expect(getNextButton()).not.toBeVisible();
+    const size = 3;
+    expect(getNextButton(document)).toBeVisible();
+    userEvent.click(getNextButton(document));
+    expect(getNextButton(document)).toBeVisible();
+    userEvent.click(getNextButton(document));
+    expect(getNextButton(document)).toBeVisible();
+    userEvent.click(getNextButton(document));
+    expect(getNextButton(document)).toBeVisible();
+    userEvent.click(getNextButton(document));
+    expect(getNextButton(document)).toBeVisible();
+    userEvent.click(getNextButton(document));
+    expect(getNextButton(document)).not.toBeVisible();
+  });
+
+  it("Contains 8 cards total", () => {
+    const numSlides = getTotalCards(document, size);
+    expect(numSlides).toEqual(total);
   });
 });
 
-describe("Additional Slider Testing", () => {
-  it("can be customized for size", async () => {
-    const wrapper = document.createElement("div");
-
+describe("Slider Size=2.  Total=8", () => {
+  const size = 2;
+  const total = 8;
+  beforeEach(async () => {
     await fixture(`
         <gohenry-slider
-          size="2"
+          total=${total}
+          size=${size}
           >
          </gohenry-slider>`);
-    wrapper.innerHTML = document.body.getElementsByTagName(
-      "gohenry-slider"
-    )[0].shadowRoot.innerHTML;
-    expect(wrapper.getElementsByTagName("gohenry-card")).toHaveLength(2);
+  });
+
+  afterEach(() => {
+    fixtureCleanup();
+  });
+
+  it(`shows the first ${size} cards`, async () => {
+    const cards = getCardsWrapper(document).getElementsByTagName(
+      "gohenry-card"
+    );
+    expectCorrectCardsToBeOnScreen(cards, size);
+    expect(cards).toHaveLength(size);
+    expectCorrectCardsToBeOnScreen(cards, size);
+  });
+
+  it(`contains ${total} cards total`, () => {
+    const numSlides = getTotalCards(document, size);
+    expect(numSlides).toEqual(total);
+  });
+});
+
+describe("Slider: Size=3, Total=6", () => {
+  const size = 3;
+  const total = 6;
+  beforeEach(async () => {
+    await fixture(`
+        <gohenry-slider
+          total=${total}
+          size=${size}
+          >
+         </gohenry-slider>`);
+  });
+
+  afterEach(() => {
+    fixtureCleanup();
+  });
+
+  it(`shows the first ${size} cards`, async () => {
+    const cards = getCardsWrapper(document).getElementsByTagName(
+      "gohenry-card"
+    );
+    expectCorrectCardsToBeOnScreen(cards, size);
+    expect(cards).toHaveLength(size);
+    expectCorrectCardsToBeOnScreen(cards, size);
+  });
+
+  it(`contains ${total} cards total`, () => {
+    const numSlides = getTotalCards(document, size);
+    expect(numSlides).toEqual(total);
   });
 });

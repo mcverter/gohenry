@@ -5,6 +5,8 @@
   "main": "app.js",
   "scripts": {
     "test": "jest",
+    "test-watch": "jest --watchAll",
+    "reinstall": "rm -rf node_modules && yarn install && yarn test && yarn start",
     "start": "webpack-dev-server --output-public-path=/build/  --mode development --progress --open --hot",
     "build": "webpack --mode production --progress"
   },
