@@ -82,7 +82,8 @@ const fetchMockResponse = [
 ];
 
 describe("Slider Custom Element", () => {
-  const wrapper = document.createElement("div");
+  let cardsWrapper;
+  let buttonsWrapper;
 
   beforeAll(() => {
     fetchMock.get(
@@ -98,9 +99,10 @@ describe("Slider Custom Element", () => {
           size="3"
           >
          </gohenry-slider>`);
-    wrapper.innerHTML = document.body.getElementsByTagName(
-      "gohenry-slider"
-    )[0].shadowRoot.innerHTML;
+    cardsWrapper = document.body.getElementsByTagName("gohenry-slider")[0]
+      .shadowRoot.childNodes[1];
+    buttonsWrapper = document.body.getElementsByTagName("gohenry-slider")[0]
+      .shadowRoot.childNodes[2];
   });
 
   afterEach(() => {
@@ -108,11 +110,11 @@ describe("Slider Custom Element", () => {
   });
 
   it("has three cards initially", () => {
-    expect(wrapper.getElementsByTagName("gohenry-card")).toHaveLength(3);
+    expect(cardsWrapper.getElementsByTagName("gohenry-card")).toHaveLength(3);
   });
 
   it("shows the first three cards", () => {
-    const cards = wrapper.getElementsByTagName("gohenry-card");
+    const cards = cardsWrapper.getElementsByTagName("gohenry-card");
     for (let i = 0; i < 3; i++) {
       expect(cards[i].getAttribute("title")).toEqual(
         fetchMockResponse[i].title
@@ -128,22 +130,23 @@ describe("Slider Custom Element", () => {
   });
 
   it("has an invisible previous button and a visible next button", () => {
-    const [previousButton, nextButton] = wrapper.getElementsByTagName("button");
-    expect(previousButton.innerHTML).toEqual('〈')
-    expect(previousButton.id).toMatch('previous')
+    const [previousButton, nextButton] = buttonsWrapper.getElementsByTagName(
+      "button"
+    );
+    expect(previousButton.innerHTML).toEqual("〈");
+    expect(previousButton.id).toMatch("previous");
     expect(previousButton).not.toBeVisible();
-    expect(nextButton.id).toMatch('next')
-    expect(nextButton.innerHTML).toEqual('〉')
+    expect(nextButton.id).toMatch("next");
+    expect(nextButton.innerHTML).toEqual("〉");
     expect(nextButton).toBeVisible();
   });
 
   it("clicking the next button will move the slides ahead", () => {
-    console.log(
-      "This won't work because wrapper contains a static copy of the dom before the button is pressed"
-    );
-    const nextButton = wrapper.getElementsByTagName("button")[1];
+    const nextButton = buttonsWrapper.getElementsByTagName("button")[1];
     userEvent.click(nextButton);
-    const cards = wrapper.getElementsByTagName("gohenry-card");
+    cardsWrapper = document.body.getElementsByTagName("gohenry-slider")[0]
+      .shadowRoot.childNodes[1];
+    const cards = cardsWrapper.getElementsByTagName("gohenry-card");
     for (let i = 0; i < 3; i++) {
       expect(cards[i].getAttribute("title")).toEqual(
         fetchMockResponse[i + 1].title
@@ -160,8 +163,56 @@ describe("Slider Custom Element", () => {
     }
   });
   it("clicking the previous button will move the slides back", () => {
-    console.log("This can not be tested until next button test is implemented");
-    expect(true).toBe(false);
+    let [previousButton, nextButton] = buttonsWrapper.getElementsByTagName(
+      "button"
+    );
+    userEvent.click(nextButton);
+
+    buttonsWrapper = document.body.getElementsByTagName("gohenry-slider")[0]
+      .shadowRoot.childNodes[2];
+    [previousButton, nextButton] = buttonsWrapper.getElementsByTagName(
+      "button"
+    );
+    userEvent.click(nextButton);
+
+    buttonsWrapper = document.body.getElementsByTagName("gohenry-slider")[0]
+      .shadowRoot.childNodes[2];
+    [previousButton, nextButton] = buttonsWrapper.getElementsByTagName(
+      "button"
+    );
+    userEvent.click(nextButton);
+
+    buttonsWrapper = document.body.getElementsByTagName("gohenry-slider")[0]
+      .shadowRoot.childNodes[2];
+    [previousButton, nextButton] = buttonsWrapper.getElementsByTagName(
+      "button"
+    );
+    userEvent.click(nextButton);
+
+    buttonsWrapper = document.body.getElementsByTagName("gohenry-slider")[0]
+      .shadowRoot.childNodes[2];
+    [previousButton, nextButton] = buttonsWrapper.getElementsByTagName(
+      "button"
+    );
+    userEvent.click(previousButton);
+
+    cardsWrapper = document.body.getElementsByTagName("gohenry-slider")[0]
+      .shadowRoot.childNodes[1];
+    const cards = cardsWrapper.getElementsByTagName("gohenry-card");
+    for (let i = 0; i < 3; i++) {
+      expect(cards[i].getAttribute("title")).toEqual(
+        fetchMockResponse[i + 3].title
+      );
+      expect(cards[i].getAttribute("subtitle")).toEqual(
+        fetchMockResponse[i + 3].subtitle
+      );
+      expect(cards[i].getAttribute("text")).toEqual(
+        fetchMockResponse[i + 3].text
+      );
+      expect(cards[i].getAttribute("image_url")).toEqual(
+        fetchMockResponse[i + 3].image_url
+      );
+    }
   });
 });
 
