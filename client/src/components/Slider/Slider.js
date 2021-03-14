@@ -1,49 +1,61 @@
-import "regenerator-runtime/runtime";
-import styles from "./Slider.styles.scss";
+import 'regenerator-runtime/runtime';
+import styles from './Slider.styles.scss';
 
-const CARDS_URL = "http://localhost:3000/cards";
+const CARDS_URL = 'http://localhost:3000/cards';
 
 window.customElements.define(
-  "gohenry-slider",
+  'gohenry-slider',
   class Slider extends HTMLElement {
     constructor() {
       super();
-      this.attachShadow({ mode: "open" });
+      this.attachShadow({ mode: 'open' });
     }
 
     static get observedAttributes() {
-      return ["loading", "cards", "start"];
+      return ['loading', 'cards', 'start'];
     }
+
     get loading() {
-      return JSON.parse(this.getAttribute("loading"));
+      return JSON.parse(this.getAttribute('loading'));
     }
+
     set loading(v) {
-      this.setAttribute("loading", JSON.stringify(v));
+      this.setAttribute('loading', JSON.stringify(v));
     }
+
     get cards() {
-      return JSON.parse(this.getAttribute("cards"));
+      return JSON.parse(this.getAttribute('cards'));
     }
+
     set cards(v) {
-      this.setAttribute("cards", JSON.stringify(v));
+      this.setAttribute('cards', JSON.stringify(v));
     }
+
     get start() {
-      return JSON.parse(this.getAttribute("start"));
+      return JSON.parse(this.getAttribute('start'));
     }
+
     set start(v) {
-      this.setAttribute("start", JSON.stringify(v));
+      this.setAttribute('start', JSON.stringify(v));
     }
+
     get size() {
-      return JSON.parse(this.getAttribute("size")) || 3;
+      return JSON.parse(this.getAttribute('size')) || 3;
     }
+
     set size(v) {
-      this.setAttribute("size", JSON.stringify(v));
+      this.setAttribute('size', JSON.stringify(v));
     }
+
     get total() {
-      return JSON.parse(this.getAttribute("total"));
+      return JSON.parse(this.getAttribute('total'));
     }
+
     set total(v) {
-      this.setAttribute("total", JSON.stringify(v));
+      this.setAttribute('total', JSON.stringify(v));
     }
+
+    // eslint-disable-next-line no-unused-vars
     attributeChangedCallback(attrName, oldVal, newVal) {
       this.render();
     }
@@ -61,7 +73,7 @@ window.customElements.define(
     }
 
     async connectedCallback() {
-      this.shadowRoot.addEventListener("click", (event) => {
+      this.shadowRoot.addEventListener('click', event => {
         const name = event.target.id;
         if (this[name]) {
           this[name]();
@@ -69,17 +81,18 @@ window.customElements.define(
       });
 
       /* Mobile devices only show one slide */
-      if (screen.width && screen.width < 720) {
+      if (window.screen.width && window.screen.width < 720) {
         this.size = 1;
       }
       await this.fetchCards(CARDS_URL);
     }
 
     next() {
-      this.start = this.start + 1;
+      this.start += 1;
     }
+
     previous() {
-      this.start = this.start - 1;
+      this.start -= 1;
     }
 
     render() {
@@ -89,41 +102,41 @@ window.customElements.define(
         while (this.shadowRoot.firstChild) {
           this.shadowRoot.removeChild(this.shadowRoot.firstChild);
         }
-        const styleTag = document.createElement("style");
+        const styleTag = document.createElement('style');
         styleTag.textContent = styles;
         this.shadowRoot.appendChild(styleTag);
 
-        const sliderContainer = document.createElement("div");
-        sliderContainer.setAttribute("class", "slider");
+        const sliderContainer = document.createElement('div');
+        sliderContainer.setAttribute('class', 'slider');
 
         this.cards
           .slice(this.start, Math.min(this.start + this.size, this.total))
-          .forEach((card) => {
+          .forEach(card => {
             const { title, subtitle, text, image_url } = card;
 
-            const goHenryCard = document.createElement("gohenry-card");
-            goHenryCard.setAttribute("title", title);
-            goHenryCard.setAttribute("subtitle", subtitle);
-            goHenryCard.setAttribute("text", text);
-            goHenryCard.setAttribute("image_url", image_url);
+            const goHenryCard = document.createElement('gohenry-card');
+            goHenryCard.setAttribute('title', title);
+            goHenryCard.setAttribute('subtitle', subtitle);
+            goHenryCard.setAttribute('text', text);
+            goHenryCard.setAttribute('image_url', image_url);
             sliderContainer.appendChild(goHenryCard.cloneNode(true));
           });
 
         this.shadowRoot.appendChild(sliderContainer);
 
-        const navContainer = document.createElement("div");
-        navContainer.setAttribute("class", "navigation");
-        const prevButton = document.createElement("button");
-        prevButton.setAttribute("id", "previous");
-        prevButton.innerHTML = "〈";
+        const navContainer = document.createElement('div');
+        navContainer.setAttribute('class', 'navigation');
+        const prevButton = document.createElement('button');
+        prevButton.setAttribute('id', 'previous');
+        prevButton.innerHTML = '〈';
         if (this.start === 0) {
-          prevButton.style.visibility = "hidden";
+          prevButton.style.visibility = 'hidden';
         }
-        const nextButton = document.createElement("button");
-        nextButton.setAttribute("id", "next");
-        nextButton.innerHTML = "〉";
+        const nextButton = document.createElement('button');
+        nextButton.setAttribute('id', 'next');
+        nextButton.innerHTML = '〉';
         if (this.start + this.size === this.total) {
-          nextButton.style.visibility = "hidden";
+          nextButton.style.visibility = 'hidden';
         }
         navContainer.appendChild(prevButton);
         navContainer.appendChild(nextButton);
@@ -131,5 +144,5 @@ window.customElements.define(
         this.shadowRoot.append(navContainer);
       }
     }
-  }
+  },
 );
