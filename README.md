@@ -61,7 +61,8 @@ Web Components were used
 
 - The delivered code should include unit tests.
 
-More or less. It took me some time to figure out how to mount the Shadow DOM in a test. I came up with an adequate solution that allowed me to test some basic functionality but it still needs to be fixed. User interactions could not be tested.
+Tests have been added to test the display of the gohenry-card and much of the functionality of the gohenry-slider.
+This is my first time working directly with the Shadow DOM so I will be continuing to refine these tests
 
 - The component should be reusable on different parts of the project / different projects.
 
