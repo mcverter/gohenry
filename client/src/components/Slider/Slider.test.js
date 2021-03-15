@@ -42,7 +42,7 @@ describe('Slider Custom Element. Size=3.  Total=8.', () => {
   it(`has ${size} cards initially`, () => {
     expect(
       getCardsWrapper(document).getElementsByTagName('gohenry-card'),
-    ).toHaveLength(3);
+    ).toHaveLength(size);
   });
 
   it(`shows the first ${size} cards`, () => {
@@ -128,7 +128,6 @@ describe('Slider Size=2.  Total=8', () => {
     const cards = getCardsWrapper(document).getElementsByTagName(
       'gohenry-card',
     );
-    expectCorrectCardsToBeOnScreen(cards, size);
     expect(cards).toHaveLength(size);
     expectCorrectCardsToBeOnScreen(cards, size);
   });
@@ -159,7 +158,6 @@ describe('Slider: Size=3, Total=6', () => {
     const cards = getCardsWrapper(document).getElementsByTagName(
       'gohenry-card',
     );
-    expectCorrectCardsToBeOnScreen(cards, size);
     expect(cards).toHaveLength(size);
     expectCorrectCardsToBeOnScreen(cards, size);
   });
